@@ -103,13 +103,8 @@ CI/CD with GitHub Actions
 To automate the deployment process, you can set up a CI/CD pipeline using GitHub Actions. Every time you push code changes to your GitHub repository, GitHub Actions can automatically build and deploy your app to Render.
 
 GitHub Actions Workflow:
-Create a .github/workflows/deploy.yml file in your repository
+Create a .github/workflows/deploy.yml file in  repository
 
-
-
-Input Example
-
-Output Example
 
 This guide covered the complete workflow for deploying a FastAPI-based machine learning application on Render, including
 
