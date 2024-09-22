@@ -1,4 +1,6 @@
-Introduction
+#Estate_Price_Prediction_API
+
+#Introduction
 This guide will demonstrate how to deploy a machine learning (ML) model using FastAPI on Render, a cloud-based platform that simplifies web service deployment. The tutorial will cover key deployment stages, from training a linear regression model for real estate price prediction to building a FastAPI application that serves the model as an API. Additionally, we will go through the steps for deploying the app on Render, testing the API to ensure correct functionality, and setting up a CI/CD pipeline to enable continuous deployment for streamlined updates and maintenance.
 
 API Deploy Link
