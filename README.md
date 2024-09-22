@@ -79,16 +79,16 @@
         <li>Go to Render and sign up for an account.</li>
         <li>Click on <strong>New</strong> and select <strong>Web Service</strong>.</li>
         <li>Connect your GitHub repository.</li>
-        <li>Render will automatically detect that you have a FastAPI app and create a deployment configuration.</li>
-        <li><strong>Configure Render Deployment:</strong> Set the build command to install your dependencies.</li>
+        <li>Render will automatically detect that have a FastAPI app and create a deployment configuration.</li>
+        <li><strong>Configure Render Deployment:</strong> Set the build command to install dependencies.</li>
     </ol>
 </ol>
 
 <h2>CI/CD with GitHub Actions</h2>
-<p>To automate the deployment process, you can set up a CI/CD pipeline using GitHub Actions. Every time you push code changes to your GitHub repository, GitHub Actions can automatically build and deploy your app to Render.</p>
+<p>To automate the deployment process, can set up a CI/CD pipeline using GitHub Actions. Every time you push code changes to your GitHub repository, GitHub Actions can automatically build and deploy app to Render.</p>
 
 <h3>GitHub Actions Workflow:</h3>
-<p>Create a <code>.github/workflows/deploy.yml</code> file in your repository.</p>
+<p>Create a <code>.github/workflows/deploy.yml</code> file in repository.</p>
 
 <h2>Summary</h2>
 <p>This guide covered the complete workflow for deploying a FastAPI-based machine learning application on Render, including:</p>
@@ -100,7 +100,7 @@
     <li><strong>CI/CD Setup:</strong> Continuous integration for automatic deployment on code changes.</li>
 </ul>
 
-<p>By following these steps, you can efficiently deploy and maintain your FastAPI-based ML model using Render.</p>
+<p>By following these steps, you can efficiently deploy and maintain FastAPI-based ML model using Render.</p>
 
 </body>
 </html>
