@@ -1,106 +1,110 @@
+# 🏡 Estate Price Prediction API  
 
-<h1>Estate Price Prediction API</h1>
+Welcome to the **Estate Price Prediction API**!  
+This project demonstrates deploying a machine learning (ML) model using **FastAPI** on **Render**, a cloud platform for seamless web service deployment.  
 
-<h2>Introduction</h2>
-<p>This guide will demonstrate how to deploy a machine learning (ML) model using FastAPI on Render, a cloud-based platform that simplifies web service deployment. The tutorial will cover key deployment stages, from training a linear regression model for real estate price prediction to building a FastAPI application that serves the model as an API. Additionally, we will go through the steps for deploying the app on Render, testing the API to ensure correct functionality, and setting up a CI/CD pipeline to enable continuous deployment for streamlined updates and maintenance.</p>
+The guide covers:  
+- 🧠 Training a linear regression model to predict real estate prices.  
+- 🚀 Building a FastAPI application to serve predictions.  
+- 🌐 Deploying on Render with a CI/CD pipeline for automated updates.  
 
-<h3>API Deploy Link</h3>
-<p><a href="https://estate-price-prediction-api.onrender.com">https://estate-price-prediction-api.onrender.com</a></p>
+---
 
-<h3>Medium Article</h3>
-<p>The article explains how to deploy a FastAPI machine learning app on Render, covering setup, configuration, and deployment steps.</p>
-<p><a href="https://medium.com/@nimashapawani2000/how-to-deploy-a-fastapi-machine-learning-application-in-render-9b9744582cc5">https://medium.com/@nimashapawani2000/how-to-deploy-a-fastapi-machine-learning-application-in-render-9b9744582cc5</a></p>
+## 📌 **API Deploy Link**  
+🔗 [Estate Price Prediction API](https://estate-price-prediction-api.onrender.com)  
 
-<h2>Training the Machine Learning Model</h2>
-<p>The real estate dataset used for this project contains several features that impact house prices. The goal of the machine learning model is to predict real estate prices using a simple linear regression algorithm. The features that the model uses as inputs are:</p>
+## 📄 **Medium Article**  
+📝 Learn how to deploy a FastAPI ML app on Render:  
+🔗 [How to Deploy a FastAPI Machine Learning Application in Render](https://medium.com/@nimashapawani2000/how-to-deploy-a-fastapi-machine-learning-application-in-render-9b9744582cc5)  
 
-<ul>
-    <li><strong>House Age:</strong> The age of the house in years.</li>
-    <li><strong>Distance to the Nearest MRT Station:</strong> The distance, in meters, between the house and the closest MRT (Mass Rapid Transit) station. Proximity to public transportation often influences property values.</li>
-    <li><strong>Number of Convenience Stores Nearby:</strong> The number of convenience stores located near the house can be an indicator of neighborhood amenities.</li>
-    <li><strong>Latitude:</strong> The geographical latitude of the property, which helps identify the house’s location and its impact on price.</li>
-</ul>
+---
 
-<p>The target variable, which the model aims to predict, is the house price. We split the dataset into training and testing sets, ensuring that the model is trained on a portion of the data and validated on a separate test set. After training, the model was evaluated on how well it predicted prices for unseen data.</p>
+## 📊 **Training the Machine Learning Model**  
 
-<h3>The steps involved in training the model</h3>
+The real estate dataset includes several features influencing house prices.  
+The model uses **Linear Regression** for predictions based on:  
 
-<ul>
-    <li><strong>Data Preprocessing:</strong> After loading the dataset, we identified and removed any rows with missing values to ensure the data was clean. The input features (X) were extracted from the dataset, along with the target variable (y), which represented the house prices.</li>
-    <li><strong>Splitting the Data:</strong> The data was split into training and test sets using the <code>train_test_split</code> function. We reserved 30% of the data for testing the model, ensuring that the model’s performance could be evaluated on unseen data.</li>
-    <li><strong>Model Training:</strong> We used the linear regression model from the sklearn library to train the model on the training data. The model learned the relationships between the input features (house age, distance to MRT, number of convenience stores, latitude) and the target variable (house price).</li>
-    <li><strong>Prediction and Evaluation:</strong> After training, the model made predictions on the test set. We visualized the results using a scatter plot to compare the actual house prices against the predicted prices.</li>
-    <li><strong>Saving the Model:</strong> Finally, the trained model was saved as a <code>.pkl</code> file (<code>reg.pkl</code>) using the pickle library. This file was later used in the FastAPI application to serve predictions.</li>
-</ul>
+- **🏠 House Age:** The property's age in years.  
+- **🚇 Distance to MRT Station:** Proximity to the nearest transit station (in meters).  
+- **🛒 Convenience Stores Nearby:** Number of stores in the vicinity.  
+- **🌍 Latitude:** Geographical location of the property.  
 
-<h2>Building the FastAPI Application</h2>
-<p>The FastAPI application is designed to serve predictions from the trained machine learning model. Below is a breakdown of the different components of the FastAPI app and their functions.</p>
+The **target variable**: House price.  
 
-<h3>Importing Necessary Libraries</h3>
-<p>At the beginning, we import the required libraries for the FastAPI application to function and handle machine learning predictions:</p>
+### **Model Training Steps**  
 
-<ul>
-    <li><strong>FastAPI:</strong> The web framework for building the API.</li>
-    <li><strong>Pydantic:</strong> Used for data validation. It ensures the input data to the API is structured correctly.</li>
-    <li><strong>Joblib:</strong> Used to load the trained model that was saved as a <code>.pkl</code> file.</li>
-    <li><strong>Numpy:</strong> For handling numerical data and arrays.</li>
-    <li><strong>Mangum:</strong> A utility that allows you to deploy FastAPI on AWS Lambda, although it is optional and mainly used for serverless deployment.</li>
-</ul>
+1. **🧹 Data Preprocessing:**  
+   - Cleaned data by removing missing values.  
+   - Extracted input features (**X**) and target variable (**y**).  
 
-<h3>Defining the Input Data Model</h3>
-<p>We define the structure of the input data using Pydantic’s <code>BaseModel</code>:</p>
+2. **📂 Data Splitting:**  
+   - Reserved 30% of data for testing using `train_test_split`.  
 
-<ul>
-    <li><code>RealEstateFeatures:</code> This class specifies the required input features for the prediction. Each feature (<code>house_age</code>, <code>distance_to_mrt</code>, <code>number_of_convenience_stores</code>, and <code>latitude</code>) is assigned a type (<code>float</code> or <code>int</code>).</li>
-</ul>
+3. **🛠️ Model Training:**  
+   - Used sklearn's Linear Regression to train the model.  
 
-<h3>Loading the Trained Model</h3>
-<p>To make predictions, we need to load the previously trained machine learning model:</p>
-<pre><code>model = joblib.load(“reg.pkl”)</code></pre>
-<p>This line loads the model from the saved <code>.pkl</code> file so that the API can use it for predictions. The model file must be in the same directory as the FastAPI app.</p>
+4. **📈 Prediction & Evaluation:**  
+   - Compared actual vs. predicted house prices using scatter plots.  
 
-<h3>Defining the API Endpoints</h3>
-<p>There are two main endpoints in the FastAPI app: a root endpoint and a prediction endpoint.</p>
+5. **💾 Saving the Model:**  
+   - Saved the trained model as `reg.pkl` for deployment.  
 
-<h3>Prediction Endpoint (POST /predict/)</h3>
-<p>This endpoint accepts real estate features in a JSON format and returns the predicted house price based on the provided input.</p>
+---
 
-<ul>
-    <li><strong>Purpose:</strong> To predict the house price based on the input features.</li>
-    <li><strong>Input:</strong> A JSON object with real estate features such as house age, distance to MRT station, number of convenience stores, and latitude.</li>
-    <li><strong>Response:</strong> A JSON object with the predicted house price.</li>
-</ul>
+## ⚙️ **Building the FastAPI Application**  
 
-<h2>Steps for Deployment</h2>
-<ol>
-    <li><strong>Create a GitHub Repository:</strong> Push your FastAPI code to a GitHub repository.</li>
-    <li><strong>Set Up Render</strong></li>
-    <ol>
-        <li>Go to Render and sign up for an account.</li>
-        <li>Click on <strong>New</strong> and select <strong>Web Service</strong>.</li>
-        <li>Connect your GitHub repository.</li>
-        <li>Render will automatically detect that have a FastAPI app and create a deployment configuration.</li>
-        <li><strong>Configure Render Deployment:</strong> Set the build command to install dependencies.</li>
-    </ol>
-</ol>
+The FastAPI app serves predictions using the trained model.  
 
-<h2>CI/CD with GitHub Actions</h2>
-<p>To automate the deployment process, can set up a CI/CD pipeline using GitHub Actions. Every time you push code changes to your GitHub repository, GitHub Actions can automatically build and deploy app to Render.</p>
+### **Key Components**  
 
-<h3>GitHub Actions Workflow:</h3>
-<p>Create a <code>.github/workflows/deploy.yml</code> file in repository.</p>
+- **📦 Libraries Used:**  
+  - **FastAPI:** Web framework for building APIs.  
+  - **Pydantic:** Input data validation.  
+  - **Joblib:** Load the trained ML model.  
+  - **Numpy:** Handle numerical computations.  
 
-<h2>Summary</h2>
-<p>This guide covered the complete workflow for deploying a FastAPI-based machine learning application on Render, including:</p>
+- **📑 Input Data Model:**  
+  Defined using Pydantic’s `BaseModel` for real estate features like:  
+  - `house_age` (float)  
+  - `distance_to_mrt` (float)  
+  - `number_of_convenience_stores` (int)  
+  - `latitude` (float)  
 
-<ul>
-    <li><strong>Training a Linear Regression Model:</strong> Predict house prices based on real estate features.</li>
-    <li><strong>Building a FastAPI Application:</strong> Serve predictions via a REST API.</li>
-    <li><strong>Deploying on Render:</strong> Simplified deployment using Render’s cloud platform.</li>
-    <li><strong>CI/CD Setup:</strong> Continuous integration for automatic deployment on code changes.</li>
-</ul>
+- **🔄 Prediction Endpoint:**  
+  Accepts JSON input and returns predicted house prices.  
 
-<p>By following these steps, you can efficiently deploy and maintain FastAPI-based ML model using Render.</p>
+---
 
-</body>
-</html>
+## 🌐 **Steps for Deployment**  
+
+### **1. GitHub Repository**  
+Push the FastAPI app and trained model to a GitHub repository.  
+
+### **2. Render Setup**  
+- Sign up at [Render](https://render.com).  
+- Click **New** > **Web Service**.  
+- Connect the GitHub repository.  
+- Configure the build command to install dependencies.  
+
+### **3. CI/CD with GitHub Actions**  
+- Automate deployment with a GitHub Actions workflow:  
+  Create `.github/workflows/deploy.yml`.  
+  Push changes to automatically build and deploy on Render.  
+
+---
+
+## 🎯 **Summary**  
+
+This guide covers the complete workflow for deploying a FastAPI-based ML app on Render:  
+
+1. **📈 Training a Model:** Predict house prices with linear regression.  
+2. **🖥️ Building an API:** Serve predictions via REST API.  
+3. **☁️ Deploying on Render:** Simplified deployment and hosting.  
+4. **🔄 CI/CD Integration:** Automate deployments with GitHub Actions.  
+
+By following this guide, you can efficiently deploy and maintain your FastAPI-based ML model. 🚀  
+
+---
+
+Feel free to contribute or suggest improvements! 🌟  
+**💻 Happy Coding!** 😄
